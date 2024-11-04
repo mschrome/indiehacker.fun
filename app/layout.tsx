@@ -14,6 +14,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log('REACT_APP_API_URL:', process.env.REACT_APP_API_URL);
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
