@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "echo process.env.REACT_APP_API_URL && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "console": "node ./app/test.js"
