@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "echo process.env.REACT_APP_API_URL && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "console": "node ./app/test.js"
   },
   "dependencies": {
     "react": "^18",
