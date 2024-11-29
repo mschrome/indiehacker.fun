@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -22,7 +23,10 @@ export default function Home() {
           priority
         />
       </div>
-
+      <div className="mb-8 flex gap-4">
+        <Link href="/about" className="text-blue-500 hover:text-blue-700">关于我们</Link>
+        <Link href="/contact" className="text-blue-500 hover:text-blue-700">联系我们</Link>
+      </div>
       <div className="grid mb-32 text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-2 lg:text-left">
         <a
           href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
