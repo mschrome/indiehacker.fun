@@ -36,6 +36,13 @@ export default function Home() {
         <Link href="/about" className="text-blue-500 hover:text-blue-700">关于我们</Link>
         <Link href="/contact" className="text-blue-500 hover:text-blue-700">联系我们</Link>
         <Link href="/price" className="text-blue-500 hover:text-blue-700">价格计划</Link>
+        <a 
+          href="/files/your-file.exe" 
+          download
+          className="text-blue-500 hover:text-blue-700"
+        >
+          下载软件
+        </a>
       </div>
       <div className="grid mb-32 text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-2 lg:text-left">
         <a

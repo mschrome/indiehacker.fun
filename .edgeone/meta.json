@@ -1,0 +1,61 @@
+{
+  "conf": {},
+  "routes": [
+    {
+      "routePath": "/?",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "?.jsx:onRequest"
+      ]
+    },
+    {
+      "routePath": "/?",
+      "mountPath": "/",
+      "method": "GET",
+      "module": [
+        "?.jsx:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/helloworld",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "helloworld.js:onRequest"
+      ]
+    },
+    {
+      "routePath": "/helloworld",
+      "mountPath": "/",
+      "method": "GET",
+      "module": [
+        "helloworld.js:onRequestGet"
+      ]
+    },
+    {
+      "routePath": "/inner/add",
+      "mountPath": "/inner",
+      "method": "POST",
+      "module": [
+        "inner/add.js:onRequestPost"
+      ]
+    },
+    {
+      "routePath": "/test",
+      "mountPath": "/",
+      "method": "",
+      "module": [
+        "test.tsx:onRequest"
+      ]
+    },
+    {
+      "routePath": "/test",
+      "mountPath": "/",
+      "method": "GET",
+      "module": [
+        "test.tsx:onRequestGet"
+      ]
+    }
+  ]
+}
