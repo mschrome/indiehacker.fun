@@ -9,5 +9,17 @@
             }
         ]
       }
+  ],
+  "redirects": [
+    {
+      "source": "/about",
+      "destination": "https://www.baidu.com",
+      "statusCode": 301
+    },
+    {
+      "source": "/contact",
+      "destination": "https://www.qq.com",
+      "statusCode": 302
+    }
   ]
 }
