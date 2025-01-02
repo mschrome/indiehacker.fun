@@ -1,1 +1,1 @@
-export {onRequest} from './index';
+export {onRequest} from './index'; // 试试 merge 触发
