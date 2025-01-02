@@ -2,11 +2,11 @@
   "conf": {},
   "routes": [
     {
-      "routePath": "/api/:default",
-      "mountPath": "/api",
+      "routePath": "/:default",
+      "mountPath": "/",
       "method": "",
       "module": [
-        "api/[[default]].js:onRequest"
+        "[[default]].js:onRequest"
       ]
     },
     {
