@@ -33,7 +33,7 @@ export default function Home() {
         />
       </div>
       <div className="mb-8 flex gap-4">
-        <Link href="/about" className="text-blue-500 hover:text-blue-700">关于我们</Link>
+        <Link href="/about" className="text-blue-500 hover:text-blue-700">关于我们hahaha</Link>
         <Link href="/contact" className="text-blue-500 hover:text-blue-700">联系我们</Link>
         <Link href="/price" className="text-blue-500 hover:text-blue-700">价格计划</Link>
       </div>
