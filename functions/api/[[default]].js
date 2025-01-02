@@ -1,1 +1,3 @@
-export {onRequest} from '../index'; // 试试提交后 pr 触发
+export function onRequest(context) {
+  return new Response('Hello Edge');
+}
