@@ -1,4 +1,6 @@
 {
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "./build",
   "headers": [
         {
         "source": "/images/*.jpg",
