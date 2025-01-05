@@ -5,7 +5,7 @@
   "nodeVersion": "22.11.0",
   "headers": [
         {
-        "source": "/images/*.jpg",
+        "source": "/images/*.png",
         "headers": [
             {
                 "key": "Cache-Control",
@@ -17,7 +17,7 @@
   "redirects": [
     {
       "source": "/about",
-      "destination": "https://www.baidu.com",
+      "destination": "https://www.dji.com",
       "statusCode": 301
     },
     {
