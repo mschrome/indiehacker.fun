@@ -21,9 +21,9 @@
       "statusCode": 301
     },
     {
-      "source": "/contact",
-      "destination": "https://www.qq.com",
-      "statusCode": 302
+      "source": "/price",
+      "destination": "https://github.com/TencentEdgeOne/pages-templates/tree/main/examples/chrome-ai",
+      "statusCode": 301
     }
   ]
 }
