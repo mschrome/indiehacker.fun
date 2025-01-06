@@ -17,7 +17,7 @@
   "redirects": [
     {
       "source": "/about",
-      "destination": "https://github.com/TencentEdgeOne/pages-templates/tree/main/examples/chrome-ai",
+      "destination": "/contact",
       "statusCode": 301
     },
     {
