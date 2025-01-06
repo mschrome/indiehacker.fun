@@ -17,7 +17,7 @@
   "redirects": [
     {
       "source": "/about",
-      "destination": "https://www.dji.com",
+      "destination": "https://github.com/TencentEdgeOne/pages-templates/tree/main/examples/chrome-ai",
       "statusCode": 301
     },
     {
