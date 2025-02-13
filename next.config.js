@@ -50,7 +50,7 @@ const nextConfig = {
   },
   trailingSlash: true, // 添加尾部斜杠
   basePath: '', // 基础路径
-  assetPrefix: './', // 资源前缀
+  assetPrefix: '/', // 修改为以斜杠开头
   experimental: {
     optimizePackageImports: ['@/app/about/bigFile']
   }
