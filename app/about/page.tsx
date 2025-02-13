@@ -1,12 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import bigArray from './bigFile';
-
-// 使用这个数组做一些操作
-console.log(bigArray.length);
+import { useEffect, useState } from 'react';
 
 export default function About() {
+  const [bigData, setBigData] = useState<string[]>([]);
+
+  useEffect(() => {
+    // 异步加载大文件数据
+    import('./bigFile')
+      .then((module) => {
+        setBigData(module.default);
+      })
+      .catch((err) => {
+        console.error('加载大文件失败:', err);
+      });
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center p-24">
       <h1 className="text-4xl font-bold mb-8">关于我们</h1>
@@ -24,6 +34,7 @@ export default function About() {
           <li>Tailwind CSS</li>
         </ul>
       </div>
+      <p>数据长度: {bigData.length}</p>
       <Link 
         href="/"
         className="text-blue-500 hover:text-blue-700 transition-colors"
