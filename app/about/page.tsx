@@ -1,6 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import bigArray from './bigFile';
+
+// 使用这个数组做一些操作
+console.log(bigArray.length);
 
 export default function About() {
   return (
