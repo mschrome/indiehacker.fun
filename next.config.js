@@ -48,6 +48,9 @@ const nextConfig = {
   images: {
     unoptimized: true // 禁用图片优化
   },
+  trailingSlash: true, // 添加尾部斜杠
+  basePath: '', // 基础路径
+  assetPrefix: './', // 资源前缀
   experimental: {
     optimizePackageImports: ['@/app/about/bigFile']
   }
