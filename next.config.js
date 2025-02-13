@@ -45,6 +45,9 @@ const nextConfig = {
   },
   // 添加其他 Next.js 配置
   output: 'export', // 使用静态导出
+  images: {
+    unoptimized: true // 禁用图片优化
+  },
   experimental: {
     optimizePackageImports: ['@/app/about/bigFile']
   }
