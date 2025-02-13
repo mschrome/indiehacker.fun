@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   webpack: (config) => {
     // 设置资源文件大小限制
@@ -8,18 +10,10 @@ const nextConfig = {
       maxEntrypointSize: 10 * 1024 * 1024 // 10MB
     };
 
-    // 配置缓存相关选项
+    // 配置内存缓存
     config.cache = {
-      type: 'filesystem',
-      // 设置缓存文件大小限制
-      maxGenerations: 1,
-      compression: 'gzip',
-      // 缓存文件的最大大小
-      maxAge: 172800000, // 2天
-      buildDependencies: {
-        config: [__filename]
-      },
-      cacheDirectory: '.next/cache/webpack'
+      type: 'memory',
+      maxGenerations: 1
     };
 
     // 优化分块策略
@@ -40,13 +34,19 @@ const nextConfig = {
             name: 'big-files',
             chunks: 'async',
             enforce: true,
-            priority: 30
+            priority: 30,
+            maxSize: 25 * 1024 * 1024 // 25MB，符合 Cloudflare Pages 限制
           }
         }
       }
     };
 
     return config;
+  },
+  // 添加其他 Next.js 配置
+  output: 'export', // 使用静态导出
+  experimental: {
+    optimizePackageImports: ['@/app/about/bigFile']
   }
 };
 
