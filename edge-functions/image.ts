@@ -7,3 +7,5 @@ export default async (req: Request, context: Context) => {
 
   return new Response(entry);
 };
+
+export const config = { path: "/image" };
