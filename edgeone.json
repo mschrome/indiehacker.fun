@@ -1,6 +1,5 @@
 {
   "buildCommand": "pnpm run build",
-  "outputDirectory": "./build",
   "installCommand": "pnpm install",
   "nodeVersion": "22.11.0",
   "headers": [
