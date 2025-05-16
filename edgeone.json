@@ -10,6 +10,12 @@
         ]
       }
   ],
+  "caches": [
+    {
+      "source": "/images/*",
+      "cacheTtl": 86400
+    }
+  ],
   "redirects": [
     {
       "source": "/about",
