@@ -4,7 +4,7 @@
   "nodeVersion": "22.11.0",
   "headers": [
         {
-        "source": "/images/*.png",
+        "source": "/images/*.jpg",
         "headers": [
             {
                 "key": "Cache-Control",
