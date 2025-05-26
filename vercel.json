@@ -1,0 +1,31 @@
+{
+  "headers": [
+    {
+      "source": "/assets/test.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=1, stale-while-revalidate=59"
+        }
+      ]
+    },
+    {
+      "source": "/assets/test-6a4e2d16174e748c.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=10"
+        }
+      ]
+    },
+    {
+      "source": "/assets/test.6a4e2d16174e748c.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "maxage=60"
+        }
+      ]
+    }
+  ]
+}
