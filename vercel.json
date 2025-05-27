@@ -1,23 +1,6 @@
 {
   "headers": [
     {
-      "source": "/assets/test.js",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, s-maxage=1, stale-while-revalidate=19"
-        },
-        {
-          "key": "CDN-Cache-Control",
-          "value": "public, s-maxage=30"
-        },
-        {
-          "key": "Vercel-CDN-Cache-Control",
-          "value": "public, s-maxage=40"
-        }
-      ]
-    },
-    {
       "source": "/assets/test-6a4e2d16174e748c.js",
       "headers": [
         {
