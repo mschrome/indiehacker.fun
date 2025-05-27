@@ -1,21 +1,4 @@
 {
-  "headers": [
-        {
-        "source": "/images/*.jpg",
-        "headers": [
-            {
-                "key": "Cache-Control",
-                "value": "public, max-age=31536000, immutable"
-            }
-        ]
-      }
-  ],
-  "caches": [
-    {
-      "source": "/images/*",
-      "cacheTtl": 86400
-    }
-  ],
   "redirects": [
     {
       "source": "/about",
