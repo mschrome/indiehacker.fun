@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {children}
         <Script src="/assets/test.js" strategy="afterInteractive" />
-        <Script src="/assets/test.6a4e2d16174e748b.js" strategy="afterInteractive" />
+        <Script src="/assets/test.6a4e2d16174e748c.js" strategy="afterInteractive" />
         <Script src="/assets/test-6a4e2d16174e748c.js" strategy="afterInteractive" />
       </body>
     </html>
