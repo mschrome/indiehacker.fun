@@ -41,11 +41,10 @@ next-env.d.ts
 .edgeone/*
 .tef_dist/*
   
-# Tencent Cloud EdgeOne
-.env
-.edgeone
-.edgeone/*
-.tef_dist/*
-  
 # Local Netlify folder
 .netlify
+
+# Gulp build files
+/dist/
+*.min.js
+*.min.css

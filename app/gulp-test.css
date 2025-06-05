@@ -1,0 +1,42 @@
+/* Gulp test CSS file */
+.gulp-test {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.gulp-test h1 {
+  margin: 0 0 10px 0;
+  font-size: 2em;
+}
+
+.gulp-test p {
+  margin: 5px 0;
+  opacity: 0.9;
+}
+
+.gulp-success {
+  background: #4CAF50;
+  color: white;
+  padding: 10px;
+  border-radius: 4px;
+  margin: 10px 0;
+  display: inline-block;
+  font-weight: bold;
+}
+
+/* Animation for fun */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.gulp-test:hover {
+  animation: pulse 1s ease-in-out;
+} 
