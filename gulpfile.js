@@ -5,23 +5,45 @@ const cssmin = require('gulp-cssmin');
 const rename = require('gulp-rename');
 const { src, dest, watch, series, parallel } = require('gulp');
 
-// Define paths
+// Define paths for different build modes
 const paths = {
-  styles: {
-    src: 'src/styles/**/*.css',
-    dest: 'dist/css/'
+  // For standalone gulp build
+  standalone: {
+    styles: {
+      src: ['app/globals.css', 'app/gulp-test.css', 'public/**/*.css'],
+      dest: 'dist/css/'
+    },
+    scripts: {
+      src: ['app/gulp-test.js', 'app/**/*.js', '!app/test.js', '!node_modules/**'],
+      dest: 'dist/js/'
+    },
+    html: {
+      src: 'public/**/*.html',
+      dest: 'dist/'
+    },
+    images: {
+      src: 'public/images/**/*',
+      dest: 'dist/images/'
+    },
+    static: {
+      src: ['public/**/*', '!public/**/*.html', '!public/images/**/*', '!public/**/*.css'],
+      dest: 'dist/'
+    }
   },
-  scripts: {
-    src: 'src/js/**/*.js',
-    dest: 'dist/js/'
-  },
-  html: {
-    src: 'src/**/*.html',
-    dest: 'dist/'
-  },
-  images: {
-    src: 'src/images/**/*',
-    dest: 'dist/images/'
+  // For Next.js integration (processes Next.js output)
+  nextjs: {
+    styles: {
+      src: ['out/**/*.css', 'app/gulp-test.css'],
+      dest: 'out/css/'
+    },
+    scripts: {
+      src: ['out/**/*.js', 'app/gulp-test.js'],
+      dest: 'out/js/'
+    },
+    images: {
+      src: 'out/images/**/*',
+      dest: 'out/images/'
+    }
   }
 };
 
@@ -40,59 +62,145 @@ async function clean() {
   return Promise.resolve();
 }
 
-// Process CSS files
-function styles() {
-  return src([
-    'app/globals.css',
-    'app/gulp-test.css',
-    'public/**/*.css'
-  ])
-    .pipe(concat('bundle.css'))
-    .pipe(dest('dist/css/'))
+// Clean Next.js output directory
+async function cleanNext() {
+  const fs = require('fs');
+  const path = require('path');
+  
+  function rimraf(dir) {
+    if (fs.existsSync(dir)) {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
+  }
+  
+  rimraf(path.join(__dirname, 'out'));
+  return Promise.resolve();
+}
+
+// Pre-build tasks (run before Next.js build)
+function preBuildStyles() {
+  console.log('🎨 Pre-processing CSS files...');
+  return src(['app/gulp-test.css'])
+    .pipe(dest('app/'))
     .pipe(cssmin())
     .pipe(rename({ suffix: '.min' }))
-    .pipe(dest('dist/css/'));
+    .pipe(dest('app/'));
 }
 
-// Process JavaScript files
+function preBuildScripts() {
+  console.log('📜 Pre-processing JavaScript files...');
+  return src(['app/gulp-test.js'])
+    .pipe(dest('app/'));
+}
+
+// Process CSS files (standalone mode)
+function styles() {
+  return src(paths.standalone.styles.src)
+    .pipe(concat('bundle.css'))
+    .pipe(dest(paths.standalone.styles.dest))
+    .pipe(cssmin())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(dest(paths.standalone.styles.dest));
+}
+
+// Process JavaScript files (standalone mode)
 function scripts() {
-  return src([
-    'app/gulp-test.js',
-    'app/**/*.js',
-    '!app/test.js',
-    '!node_modules/**'
-  ])
+  return src(paths.standalone.scripts.src)
     .pipe(concat('bundle.js'))
-    .pipe(dest('dist/js/'))
+    .pipe(dest(paths.standalone.scripts.dest))
     .pipe(uglify())
     .pipe(rename({ suffix: '.min' }))
-    .pipe(dest('dist/js/'));
+    .pipe(dest(paths.standalone.scripts.dest));
 }
 
-// Copy HTML files
+// Post-process Next.js output
+function postProcessStyles() {
+  console.log('🎨 Post-processing Next.js CSS files...');
+  
+  // First, let's create additional processed CSS from our test files
+  return src(['app/gulp-test.css'])
+    .pipe(concat('gulp-enhanced.css'))
+    .pipe(dest('out/css/'))
+    .pipe(cssmin())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(dest('out/css/'));
+}
+
+function postProcessScripts() {
+  console.log('📜 Post-processing Next.js JavaScript files...');
+  
+  // Add our test JS to the Next.js output
+  return src(['app/gulp-test.js'])
+    .pipe(concat('gulp-enhanced.js'))
+    .pipe(dest('out/js/'))
+    .pipe(uglify())
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(dest('out/js/'));
+}
+
+// Add gulp test indicator to Next.js output
+function addGulpIndicator() {
+  const fs = require('fs');
+  const path = require('path');
+  
+  console.log('🔧 Adding Gulp test indicator to Next.js output...');
+  
+  // Create a gulp indicator file
+  const indicatorContent = `
+/* Gulp Enhancement Indicator */
+console.log('🎉 This Next.js site has been enhanced with Gulp!');
+console.log('Generated at: ${new Date().toISOString()}');
+console.log('Gulp processing: ✅ Completed');
+
+// Add visual indicator to the page
+if (typeof document !== 'undefined') {
+  document.addEventListener('DOMContentLoaded', function() {
+    const indicator = document.createElement('div');
+    indicator.innerHTML = '🔧 Enhanced with Gulp';
+    indicator.style.cssText = 'position: fixed; top: 10px; right: 10px; background: #4CAF50; color: white; padding: 5px 10px; border-radius: 4px; font-size: 12px; z-index: 9999; font-family: Arial, sans-serif;';
+    document.body.appendChild(indicator);
+    
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+      indicator.style.opacity = '0.3';
+    }, 3000);
+  });
+}
+`;
+
+  const outDir = path.join(__dirname, 'out');
+  if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+  }
+  
+  const jsDir = path.join(outDir, 'js');
+  if (!fs.existsSync(jsDir)) {
+    fs.mkdirSync(jsDir, { recursive: true });
+  }
+  
+  fs.writeFileSync(path.join(jsDir, 'gulp-indicator.js'), indicatorContent);
+  return Promise.resolve();
+}
+
+// Copy HTML files (standalone mode)
 function html() {
-  return src('public/**/*.html')
-    .pipe(dest('dist/'));
+  return src(paths.standalone.html.src)
+    .pipe(dest(paths.standalone.html.dest));
 }
 
-// Copy and optimize images
+// Copy and optimize images (standalone mode)
 function images() {
-  return src('public/images/**/*')
-    .pipe(dest('dist/images/'));
+  return src(paths.standalone.images.src)
+    .pipe(dest(paths.standalone.images.dest));
 }
 
-// Copy static files
+// Copy static files (standalone mode)
 function copyStatic() {
-  return src([
-    'public/**/*',
-    '!public/**/*.html',
-    '!public/images/**/*',
-    '!public/**/*.css'
-  ])
-    .pipe(dest('dist/'));
+  return src(paths.standalone.static.src)
+    .pipe(dest(paths.standalone.static.dest));
 }
 
-// Create a simple test file to verify gulp is working
+// Create a simple test file to verify gulp is working (standalone mode)
 function createTestFile() {
   const fs = require('fs');
   const path = require('path');
@@ -125,7 +233,7 @@ function createTestFile() {
     <div class="container">
         <div class="gulp-test">
             <h1>🎉 Gulp Test Successfully Deployed!</h1>
-            <p>This page was generated using Gulp tasks on EdgeOne Pages.</p>
+            <p>This page was generated using <strong>Gulp only</strong> (standalone mode).</p>
             <p><strong>Generated at:</strong> ${new Date().toISOString()}</p>
             <p><strong>Build ID:</strong> ${Date.now()}</p>
         </div>
@@ -143,7 +251,7 @@ function createTestFile() {
             <li>✅ EdgeOne Pages deployment</li>
         </ul>
         
-        <p>If you can see this page with proper styling, Gulp is working on EdgeOne Pages! 🚀</p>
+        <p>This is <strong>standalone Gulp build</strong> mode. 🚀</p>
     </div>
     
     <script src="js/bundle.min.js"></script>
@@ -168,12 +276,6 @@ function watchFiles() {
   watch('public/images/**/*', images);
 }
 
-// Development task
-const dev = series(clean, parallel(styles, scripts, html, images, copyStatic), createTestFile, watchFiles);
-
-// Build task for production
-const build = series(clean, parallel(styles, scripts, html, images, copyStatic), createTestFile);
-
 // Test task to verify gulp functionality
 function testGulp(done) {
   console.log('🔧 Testing Gulp configuration...');
@@ -182,16 +284,37 @@ function testGulp(done) {
   console.log('🔧 Build tools ready');
   console.log('🚀 Ready for EdgeOne Pages deployment');
   console.log('');
-  console.log('Available commands:');
-  console.log('  npm run gulp:build  - Build for production');
-  console.log('  npm run gulp:dev    - Development with watch');
-  console.log('  npm run gulp:clean  - Clean dist directory');
+  console.log('Available build modes:');
+  console.log('  npm run build              - Next.js only (original)');
+  console.log('  npm run build:next-only    - Next.js only (explicit)');
+  console.log('  npm run build:gulp-only    - Gulp only (standalone)');
+  console.log('  npm run build:hybrid       - Pre + Next.js + Post processing');
+  console.log('  npm run build:with-gulp    - Clean + Next.js + Post processing');
+  console.log('');
+  console.log('Gulp tasks:');
+  console.log('  npm run gulp:build         - Standalone gulp build');
+  console.log('  npm run gulp:pre-build     - Pre-process before Next.js');
+  console.log('  npm run gulp:post-build    - Post-process after Next.js');
   console.log('');
   done();
 }
 
+// Define composite tasks
+const preBuild = parallel(preBuildStyles, preBuildScripts);
+const postProcess = series(
+  parallel(postProcessStyles, postProcessScripts),
+  addGulpIndicator
+);
+
+// Development task (standalone)
+const dev = series(clean, parallel(styles, scripts, html, images, copyStatic), createTestFile, watchFiles);
+
+// Build task for production (standalone)
+const build = series(clean, parallel(styles, scripts, html, images, copyStatic), createTestFile);
+
 // Export tasks
 exports.clean = clean;
+exports.cleanNext = cleanNext;
 exports.styles = styles;
 exports.scripts = scripts;
 exports.html = html;
@@ -200,6 +323,17 @@ exports.copyStatic = copyStatic;
 exports.createTestFile = createTestFile;
 exports.watch = watchFiles;
 exports.test = testGulp;
+
+// New tasks for Next.js integration
+exports['pre-build'] = preBuild;
+exports['post-process'] = postProcess;
+exports.preBuildStyles = preBuildStyles;
+exports.preBuildScripts = preBuildScripts;
+exports.postProcessStyles = postProcessStyles;
+exports.postProcessScripts = postProcessScripts;
+exports.addGulpIndicator = addGulpIndicator;
+
+// Main tasks
 exports.dev = dev;
 exports.build = build;
 exports.default = build; 

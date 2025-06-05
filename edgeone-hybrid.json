@@ -1,0 +1,49 @@
+{
+  "name": "nextjs-gulp-hybrid-test",
+  "description": "Testing Next.js + Gulp hybrid build on EdgeOne Pages",
+  "framework": "nextjs",
+  "build": {
+    "command": "npm run build:with-gulp",
+    "outputDirectory": "out",
+    "installCommand": "npm install"
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "**/*.css",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "**/*.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/js/gulp-indicator.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript"
+        }
+      ]
+    }
+  ],
+  "env": {
+    "NODE_VERSION": "18",
+    "NEXT_PUBLIC_GULP_ENHANCED": "true"
+  }
+} 
